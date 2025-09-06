@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: expense-manager
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 1 --threads 4 --timeout 120 --keep-alive 2 --max-requests 1000 --max-requests-jitter 100 --preload --bind 0.0.0.0:$PORT app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+    healthCheckPath: /health
+    autoDeploy: true
